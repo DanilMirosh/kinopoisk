@@ -3,11 +3,12 @@ import os
 from pathlib import Path
 from typing import Type
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path.cwd()
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'rZwVQ2Cpz7R89Bzj')
+    JWT_ALGORITHM = "HS256"
     JSON_AS_ASCII = False
 
     ITEMS_PER_PAGE = 12
@@ -33,7 +34,8 @@ class TestingConfig(BaseConfig):
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('project.db').as_posix()
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + (BASE_DIR / "app.db").as_posix()
+    EXPLAIN_TEMPLATE_LOADING = True
 
 
 class ProductionConfig(BaseConfig):

@@ -1,10 +1,13 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask_cors import CORS
 
 from project.exceptions import BaseServiceError
 from project.setup.api import api
 from project.setup.db import db
-from project.views import auth_ns, genres_ns, user_ns
+from project.views import auth_ns, user_ns, genres_ns, directors_ns, movies_ns, favorites_ns
+
+
+# from app.dao.models import Genre, Director, User, Movie, FavouriteMovies
 
 
 def base_service_error_handler(exception: BaseServiceError):
@@ -23,6 +26,9 @@ def create_app(config_obj):
     api.add_namespace(auth_ns)
     api.add_namespace(user_ns)
     api.add_namespace(genres_ns)
+    api.add_namespace(directors_ns)
+    api.add_namespace(movies_ns)
+    api.add_namespace(favorites_ns)
 
     app.register_error_handler(BaseServiceError, base_service_error_handler)
 
