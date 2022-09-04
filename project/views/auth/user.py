@@ -1,38 +1,33 @@
-from flask import request
 from flask_restx import Namespace, Resource
+from flask import request
 
+from project.setup.api.models import user_schema
+from project.tools.security import login_required
 from project.container import user_service
-from project.setup.api.models import user
 
-api = Namespace('user')
+api = Namespace('user', description="Пользователи")
 
 
-@api.route('/')
-class RegisterView(Resource):
-    @api.marshal_with(user, as_list=True, code=200, description='OK')
-    def get(self):
-        """
-        Get user.
-        """
-        token = request.headers["Authorization"].split("Bearer ")[-1]
-        return user_service.get_user_by_token(token)
+@api.route("/")
+class UserView(Resource):
+    @login_required
+    @api.marshal_with(user_schema, code=200, description='OK')
+    def get(self, token_data):
+        answer = user_service.get(token_data)
+        return answer
 
-    @api.marshal_with(user, as_list=True, code=200, description='OK')
-    def patch(self):
-        token = request.headers["Authorization"].split("Bearer ")[-1]
+    @login_required
+    def patch(self, token_data):
         data = request.json
+        user = user_service.patch(token_data, data)
+        return "OK", 201
 
-        return user_service.update_user(data=data, token=token)
 
-
-@api.route('/password/')
-class LoginView(Resource):
-    @api.marshal_with(user, as_list=True, code=200, description='OK')
-    def put(self):
-        """
-        update token
-        """
+@api.route("/password/")
+class UserPasswordView(Resource):
+    @login_required
+    def put(self, token_data):
         data = request.json
-        token = request.headers["Authorization"].split("Bearer ")[-1]
+        user_service.set_password(token_data, data)
 
-        return user_service.update_password(data=data, token=token)
+        return "OK", 201

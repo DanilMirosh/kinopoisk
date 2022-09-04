@@ -2,14 +2,14 @@ from string import punctuation
 from sqlalchemy.exc import SQLAlchemyError
 
 from .base import BaseService
-from project.dao import UserDAO
+from project.dao import UsersDAO
 from project.exceptions import BadRequestData
 from project.tools.security import generate_password_hash, compose_passwords, encode_jwt_token, decode_jwt_token
 from project.dao.models import User
 
 
-class UserService(BaseService[UserDAO]):
-    def __init__(self, dao: UserDAO):
+class UsersService(BaseService[UsersDAO]):
+    def __init__(self, dao: UsersDAO):
         self._dao = dao
 
     @staticmethod

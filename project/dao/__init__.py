@@ -1,15 +1,15 @@
 from .base import BaseDAO
-from .director import DirectorDAO
-from .genre import GenreDAO
-from .user import UserDAO
-from .movie import MovieDAO
+from .director import DirectorsDAO
+from .genre import GenresDAO
+from .user import UsersDAO
+from .movie import MoviesDAO
 from .favorite_movie import FavoriteMovieDAO
 
 __all__ = [
     "BaseDAO",
-    "DirectorDAO",
-    "GenreDAO",
-    "UserDAO",
-    "MovieDAO",
+    "DirectorsDAO",
+    "GenresDAO",
+    "UsersDAO",
+    "MoviesDAO",
     "FavoriteMovieDAO",
 ]

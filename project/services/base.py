@@ -3,7 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from project.dao.base import BaseDAO
 from project.exceptions import ItemNotFound, BadRequestData, BaseServiceError
-from project.setup.db import Base
+from project.setup.db.models import Base
 
 T = TypeVar("T", bound=BaseDAO)
 

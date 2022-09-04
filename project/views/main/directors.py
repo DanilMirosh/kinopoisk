@@ -1,16 +1,17 @@
 from flask_restx import Namespace, Resource
 
 from project.container import director_service
-from project.setup.api.models import director
+from project.setup.api.models import director_schema
 from project.setup.api.parsers import page_parser
 
-api = Namespace('directors')
+api = Namespace('directors', description="Продюсеры")
 
 
 @api.route('/')
 class DirectorsView(Resource):
+
     @api.expect(page_parser)
-    @api.marshal_with(director, as_list=True, code=200, description='OK')
+    @api.marshal_with(director_schema, as_list=True, code=200, description='OK')
     def get(self):
         """
         Get all directors.
@@ -21,7 +22,7 @@ class DirectorsView(Resource):
 @api.route('/<int:director_id>/')
 class DirectorView(Resource):
     @api.response(404, 'Not Found')
-    @api.marshal_with(director, code=200, description='OK')
+    @api.marshal_with(director_schema, code=200, description='OK')
     def get(self, director_id: int):
         """
         Get director by id.

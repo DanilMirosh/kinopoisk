@@ -1,14 +1,13 @@
-from .movie import MovieService
-from .favorite_movie import FavoriteMovieService
-from .user import UserService
-from .genre import GenreService
-from .director import DirectorService
-
+from .movies_service import MoviesService
+from .favorites_service import FavoriteMovieService
+from .users_service import UsersService
+from .genres_service import GenresService
+from .directors_service import DirectorsService
 
 __all__ = [
-    "MovieService",
+    "MoviesService",
     "FavoriteMovieService",
-    "UserService",
-    "GenreService",
-    "DirectorService",
+    "UsersService",
+    "GenresService",
+    "DirectorsService",
 ]

@@ -7,7 +7,7 @@ from .base import BaseDAO
 from .models import Movie
 
 
-class MovieDAO(BaseDAO[Movie]):
+class MoviesDAO(BaseDAO[Movie]):
     __model__ = Movie
     __updatable_fields__ = [
         "title",

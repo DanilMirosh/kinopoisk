@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, BigInteger
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from project.setup.db.models import BaseWithID, KeyType
@@ -11,6 +11,6 @@ class User(BaseWithID):
     password = Column(String, nullable=False)
     name = Column(String(40))
     surname = Column(String(40))
-    favourite_genre = Column(KeyType, ForeignKey("genres.id"))
-    favourite_genre_object = relationship("Genre")
-    favourite_movies = relationship("Movie", secondary="favorite_movies")
+    favorite_genre = Column(KeyType, ForeignKey("genres.id"))
+    favorite_genre_object = relationship("Genre")
+    favorite_movies = relationship("Movie", secondary="favorite_movies")

@@ -1,49 +1,27 @@
-from flask import request
 from flask_restx import Namespace, Resource
-
+from flask import request
 from project.container import user_service
-from project.setup.api.models import user
 
-api = Namespace('auth')
+api = Namespace('auth', description="User authentication")
 
 
-@api.route('/register/')
-class RegisterView(Resource):
-    @api.marshal_with(user, as_list=True, code=200, description='OK')
+@api.route("/register/")
+class AuthRegistrationView(Resource):
+    @api.response(400, "Bad request")
     def post(self):
-        """
-        Create a new user.
-        """
         data = request.json
-        if data.get('email') and data.get('password'):
-            return user_service.create_user(email=data.get('email'), password=data.get('password')), 201
-        else:
-            return "User not found", 401
+        user = user_service.register(data)
+        return "OK", 201, {'location': '/users/'}
 
 
-@api.route('/login/')
-class LoginView(Resource):
+@api.route("/login/")
+class AuthLoginView(Resource):
+    @api.response(400, "Bad request")
     def post(self):
-        """
-        Login user
-        """
         data = request.json
+        return user_service.login(data), 201
 
-        if data.get("email") and data.get("password"):
-            return user_service.check(email=data.get("email"), password=data.get("password")), 200
-        else:
-            return "", 401
-
+    @api.response(400, "Bad request")
     def put(self):
-        """
-        update token
-        """
-        data = request.json
-
-        if data.get('access_token') and data.get('refresh_token'):
-            return user_service.update_token(
-                access_token=data.get('access_token'),
-                refresh_token=data.get('refresh_token')
-            ), 200
-        else:
-            return "", 401
+        refresh_token = request.form.get("refresh_token", None)
+        return user_service.refresh(refresh_token), 201

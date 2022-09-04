@@ -4,7 +4,7 @@ from .base import BaseDAO
 from .models import User
 
 
-class UserDAO(BaseDAO[User]):
+class UsersDAO(BaseDAO[User]):
     __model__ = User
     __updatable_fields__ = [
         "email",

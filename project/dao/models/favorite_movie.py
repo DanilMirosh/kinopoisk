@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, BigInteger
+from sqlalchemy import Column, ForeignKey
 
 from project.setup.db.models import BaseManyToMany, KeyType
 

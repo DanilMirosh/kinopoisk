@@ -3,11 +3,12 @@ import os
 from pathlib import Path
 from typing import Type
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path.cwd()
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'rZwVQ2Cpz7R89Bzj')
+    JWT_ALGORITHM = "HS256"
     JSON_AS_ASCII = False
 
     ITEMS_PER_PAGE = 12
@@ -19,8 +20,6 @@ class BaseConfig:
 
     PWD_HASH_SALT = base64.b64decode("salt")
     PWD_HASH_ITERATIONS = 100_000
-
-    ALGORITHM = "HS256"
 
     RESTX_JSON = {
         'ensure_ascii': False,
@@ -35,12 +34,13 @@ class TestingConfig(BaseConfig):
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('project.db').as_posix()
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + (BASE_DIR / "app.db").as_posix()
+    EXPLAIN_TEMPLATE_LOADING = True
 
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-
+    # TODO: дополнить конфиг
 
 
 class ConfigFactory:
